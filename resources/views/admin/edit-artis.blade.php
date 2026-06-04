@@ -96,7 +96,7 @@
                     </div>
 
                     {{-- Genre & Asal --}}
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1.5">Genre</label>
                             <input type="text" name="genre"

@@ -25,10 +25,10 @@
     <div x-data="{ openModal: {{ $errors->any() ? 'true' : 'false' }}, deleteArtistId: null, deleteArtistName: '', concertCount: 0 }">
 
         {{-- Action Bar --}}
-        <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             {{-- Search & Filter --}}
-            <form method="GET" action="{{ route('admin.artists.index') }}" class="flex items-center gap-3 flex-wrap">
-                <div class="flex items-center px-4 py-2 bg-white rounded-xl border border-gray-200 w-[280px]">
+            <form method="GET" action="{{ route('admin.artists.index') }}" class="flex items-center gap-3 flex-wrap w-full sm:w-auto">
+                <div class="flex items-center px-4 py-2 bg-white rounded-xl border border-gray-200 w-full sm:w-[280px]">
                     <svg class="w-5 h-5 text-gray-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
@@ -65,8 +65,10 @@
 
         {{-- Table --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            {{-- Header --}}
-            <div class="bg-[#1f2937] px-6 py-4 grid grid-cols-12 gap-4 items-center">
+            <div class="overflow-x-auto">
+                <div class="min-w-[800px]">
+                    {{-- Header --}}
+                    <div class="bg-[#1f2937] px-6 py-4 grid grid-cols-12 gap-4 items-center">
                 <div class="col-span-1 text-xs font-semibold text-gray-300">Foto</div>
                 <div class="col-span-3 text-xs font-semibold text-gray-300">Nama Artis</div>
                 <div class="col-span-2 text-xs font-semibold text-gray-300">Genre</div>
@@ -161,6 +163,8 @@
                         <p class="text-gray-300 text-xs">Klik "+ Tambah Artis" untuk menambahkan artis pertama.</p>
                     </div>
                 @endforelse
+            </div>
+                </div>
             </div>
 
             {{-- Pagination --}}

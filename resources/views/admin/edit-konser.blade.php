@@ -92,7 +92,7 @@
                     </div>
 
                     {{-- Venue & Kota --}}
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1.5">
                                 Nama Venue <span class="text-red-500">*</span>
@@ -116,7 +116,7 @@
                     </div>
 
                     {{-- Tanggal & Waktu --}}
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1.5">
                                 Tanggal Acara <span class="text-red-500">*</span>
@@ -277,7 +277,7 @@
                                         </svg>
                                     </button>
                                 </div>
-                                <div class="grid grid-cols-3 gap-3">
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                     <div>
                                         <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Nama Kategori</label>
                                         <input type="text"

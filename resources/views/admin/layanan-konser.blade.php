@@ -25,9 +25,9 @@
     {{-- Action Bar --}}
     <div x-data="{ openModal: {{ $errors->any() ? 'true' : 'false' }} }">
 
-        <div class="flex justify-between items-center mb-6">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <form method="GET" action="{{ route('admin.concerts.index') }}"
-                  class="flex items-center px-4 py-2 bg-white rounded-xl border border-gray-200 w-[350px]">
+                  class="flex items-center px-4 py-2 bg-white rounded-xl border border-gray-200 w-full sm:w-[350px]">
                 <svg class="w-5 h-5 text-gray-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
@@ -54,8 +54,10 @@
 
         {{-- Table --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            {{-- Table Header --}}
-            <div class="bg-[#1f2937] px-6 py-4 grid grid-cols-12 gap-4 items-center">
+            <div class="overflow-x-auto">
+                <div class="min-w-[900px]">
+                    {{-- Table Header --}}
+                    <div class="bg-[#1f2937] px-6 py-4 grid grid-cols-12 gap-4 items-center">
                 <div class="col-span-4 text-xs font-semibold text-gray-300">Detail Acara</div>
                 <div class="col-span-2 text-xs font-semibold text-gray-300">Lokasi</div>
                 <div class="col-span-2 text-xs font-semibold text-gray-300">Tanggal & Waktu</div>
@@ -174,6 +176,8 @@
                     </div>
                 @endforelse
             </div>
+                </div>
+            </div>
         </div>
 
         {{-- ============================================================ --}}
@@ -275,7 +279,7 @@
                         </div>
 
                         {{-- Venue & Kota --}}
-                        <div class="grid grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1.5">
                                     Nama Venue <span class="text-red-500">*</span>
@@ -301,7 +305,7 @@
                         </div>
 
                         {{-- Tanggal & Waktu --}}
-                        <div class="grid grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1.5">
                                     Tanggal Acara <span class="text-red-500">*</span>
@@ -467,7 +471,7 @@
                                                 </svg>
                                             </button>
                                         </div>
-                                        <div class="grid grid-cols-3 gap-3">
+                                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                             <div>
                                                 <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Nama Kategori</label>
                                                 <input type="text"
