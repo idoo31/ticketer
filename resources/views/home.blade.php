@@ -1,0 +1,134 @@
+<x-layout>
+    <!-- Hero Section -->
+    <section class="pt-20 pb-24 text-center px-4 relative overflow-hidden bg-gradient-to-b from-blue-50/50 to-white">
+        <div class="max-w-4xl mx-auto">
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-semibold mb-8">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                </svg>
+                Platform Tiket Konser Terpercaya #1 Indonesia
+            </div>
+
+            <!-- Title -->
+            <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight mb-4">
+                Pesan Tiket Konser <br />
+                <span class="text-blue-600">Artis Favoritmu!</span>
+            </h1>
+            
+            <p class="text-lg text-gray-600 mb-12">
+                Jangan lewatkan daftar konser terbaru yang akan segera hadir!
+            </p>
+
+            <!-- Search Bar — mengarah ke /konser dengan filter aktif -->
+            <form method="GET" action="/konser" id="hero-search-form"
+                class="bg-white p-2 rounded-full shadow-lg border border-gray-200 max-w-4xl mx-auto flex flex-col md:flex-row gap-2">
+
+                <!-- Keyword -->
+                <div class="flex-1 flex items-center px-4 py-2 bg-white rounded-full border border-gray-200 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition-all">
+                    <svg class="w-5 h-5 text-gray-400 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                    <input
+                        type="text"
+                        name="q"
+                        placeholder="Nama artis, konser, venue…"
+                        class="w-full bg-transparent border-none focus:ring-0 text-gray-900 placeholder-gray-500 text-sm outline-none"
+                        autocomplete="off"
+                    >
+                </div>
+
+                <!-- Bulan -->
+                <div class="flex-1 flex items-center px-4 py-2 bg-white rounded-full border border-gray-200 relative">
+                    <svg class="w-5 h-5 text-gray-400 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    <select name="month" class="w-full bg-transparent border-none focus:ring-0 text-gray-500 text-sm appearance-none outline-none cursor-pointer pr-6">
+                        <option value="">Kapan saja</option>
+                        @foreach($availableMonths as $m)
+                            <option value="{{ $m['month_key'] }}">{{ $m['month_label'] }}</option>
+                        @endforeach
+                    </select>
+                    <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </div>
+                </div>
+
+                <!-- Kota -->
+                <div class="flex-1 flex items-center px-4 py-2 bg-white rounded-full border border-gray-200 relative">
+                    <svg class="w-5 h-5 text-gray-400 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <select name="city" class="w-full bg-transparent border-none focus:ring-0 text-gray-500 text-sm appearance-none outline-none cursor-pointer pr-6">
+                        <option value="">Semua kota</option>
+                        @foreach($cities as $c)
+                            <option value="{{ $c }}">{{ $c }}</option>
+                        @endforeach
+                    </select>
+                    <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit"
+                    class="bg-blue-700 hover:bg-blue-800 text-white px-8 py-3 rounded-full font-semibold transition-colors w-full md:w-auto flex-shrink-0 text-sm flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    Cari Tiket
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Upcoming Concerts Section -->
+    <section class="py-12 border-t border-gray-100 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-end mb-8">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-900 mb-1">Konser Mendatang</h2>
+                    <p class="text-sm text-gray-500">
+                        {{ $upcomingConcerts->count() > 0
+                            ? $upcomingConcerts->count() . ' konser tersedia untuk Anda'
+                            : 'Belum ada konser aktif saat ini' }}
+                    </p>
+                </div>
+                <a href="/konser" class="text-blue-600 hover:text-blue-700 font-medium text-sm flex items-center gap-1 transition-colors">
+                    Lihat Semua
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+
+            @if($upcomingConcerts->count() > 0)
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    @foreach($upcomingConcerts as $concert)
+                        <x-concert-card :concert="$concert" />
+                    @endforeach
+                </div>
+
+                <div class="mt-12 text-center">
+                    <a href="/konser" class="inline-flex items-center gap-2 px-8 py-3 bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-900 font-semibold rounded-xl transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        Lihat Semua Konser
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+            @else
+                {{-- Empty State --}}
+                <div class="py-20 text-center">
+                    <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-5">
+                        <svg class="w-10 h-10 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-700 mb-2">Belum Ada Konser Aktif</h3>
+                    <p class="text-sm text-gray-400 max-w-sm mx-auto">
+                        Konser akan segera hadir. Pantau terus halaman ini untuk update terbaru!
+                    </p>
+                </div>
+            @endif
+        </div>
+    </section>
+</x-layout>
