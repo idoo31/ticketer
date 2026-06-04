@@ -2,26 +2,26 @@
     <div class="bg-gray-50 min-h-screen">
 
         {{-- ── Header / Profile ── --}}
-        <div class="pt-12 pb-12">
+        <div class="pt-8 md:pt-12 pb-8 md:pb-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center gap-6">
+                <div class="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 text-center sm:text-left">
                     {{-- Avatar --}}
-                    <div class="w-32 h-32 bg-white border-2 border-blue-100 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm">
-                        <svg class="w-16 h-16 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-24 h-24 sm:w-32 sm:h-32 bg-white border-2 border-blue-100 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm">
+                        <svg class="w-12 h-12 sm:w-16 sm:h-16 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                 d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
                     </div>
 
                     {{-- Info --}}
-                    <div>
-                        <h1 class="text-3xl font-extrabold text-gray-900 mb-1">{{ $user->name }}</h1>
-                        <p class="text-sm text-gray-500 font-semibold">
+                    <div class="flex flex-col items-center sm:items-start">
+                        <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-1">{{ $user->name }}</h1>
+                        <p class="text-xs sm:text-sm text-gray-500 font-semibold">
                             {{ $user->email }}
-                            &bull;
-                            Bergabung Sejak {{ $user->created_at->translatedFormat('Y') }}
+                            <span class="hidden sm:inline">&bull;</span>
+                            <span class="block sm:inline mt-1 sm:mt-0">Bergabung Sejak {{ $user->created_at->translatedFormat('Y') }}</span>
                         </p>
-                        <span class="inline-block mt-2 px-3 py-1 text-xs font-semibold rounded-full
+                        <span class="inline-block mt-3 px-3 py-1 text-xs font-semibold rounded-full
                             {{ $user->isAdmin() ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700' }}">
                             {{ $user->isAdmin() ? 'Admin' : 'Customer' }}
                         </span>
@@ -31,16 +31,16 @@
         </div>
 
         {{-- ── Main Content ── --}}
-        <div class="pb-24">
+        <div class="pb-16 md:pb-24">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex flex-col md:flex-row gap-8">
+                <div class="flex flex-col md:flex-row gap-6 md:gap-8">
 
                     {{-- ── Sidebar ── --}}
                     <div class="w-full md:w-72 flex-shrink-0">
-                        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-4">
-                            <nav class="space-y-2">
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 sticky top-24">
+                            <nav class="flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-x-visible pb-2 md:pb-0 scrollbar-hide">
                                 <a href="#tiket"
-                                    class="flex items-center gap-3 px-4 py-4 bg-blue-600 text-white rounded-xl font-semibold shadow-sm">
+                                    class="flex-shrink-0 flex items-center justify-center md:justify-start gap-2 md:gap-3 px-4 py-3 md:py-4 bg-blue-600 text-white rounded-xl font-semibold shadow-sm w-1/2 md:w-full text-sm md:text-base">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
@@ -48,7 +48,7 @@
                                     Dompet Tiket
                                 </a>
                                 <a href="#riwayat"
-                                    class="flex items-center gap-3 px-4 py-4 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-xl font-semibold transition-colors">
+                                    class="flex-shrink-0 flex items-center justify-center md:justify-start gap-2 md:gap-3 px-4 py-3 md:py-4 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-xl font-semibold transition-colors w-1/2 md:w-full text-sm md:text-base border border-gray-100 md:border-transparent">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -60,18 +60,18 @@
                             {{-- Stats --}}
                             <div class="mt-6 border-t border-gray-100 pt-4 space-y-3">
                                 <div class="flex justify-between items-center px-2">
-                                    <span class="text-sm text-gray-500">Total Transaksi</span>
-                                    <span class="text-sm font-bold text-gray-900">{{ $transactions->count() }}</span>
+                                    <span class="text-xs sm:text-sm text-gray-500">Total Transaksi</span>
+                                    <span class="text-xs sm:text-sm font-bold text-gray-900">{{ $transactions->count() }}</span>
                                 </div>
                                 <div class="flex justify-between items-center px-2">
-                                    <span class="text-sm text-gray-500">Total Tiket</span>
-                                    <span class="text-sm font-bold text-gray-900">
+                                    <span class="text-xs sm:text-sm text-gray-500">Total Tiket</span>
+                                    <span class="text-xs sm:text-sm font-bold text-gray-900">
                                         {{ $transactions->flatMap->details->sum('quantity') }}
                                     </span>
                                 </div>
                                 <div class="flex justify-between items-center px-2">
-                                    <span class="text-sm text-gray-500">Total Pengeluaran</span>
-                                    <span class="text-sm font-bold text-blue-600">
+                                    <span class="text-xs sm:text-sm text-gray-500">Total Pengeluaran</span>
+                                    <span class="text-xs sm:text-sm font-bold text-blue-600">
                                         Rp {{ number_format($transactions->sum('grand_total'), 0, ',', '.') }}
                                     </span>
                                 </div>
@@ -80,13 +80,13 @@
                     </div>
 
                     {{-- ── Main Area ── --}}
-                    <div class="flex-1 space-y-8">
+                    <div class="flex-1 space-y-8 md:space-y-12">
 
                         {{-- E-Ticket Aktif --}}
-                        <div id="tiket">
-                            <div class="mb-4">
-                                <h2 class="text-2xl font-bold text-gray-900 mb-1">E-Ticket Aktif Anda</h2>
-                                <p class="text-gray-500 text-sm">Tunjukkan kode QR atau download PDF tiket untuk masuk ke area acara.</p>
+                        <div id="tiket" class="scroll-mt-24">
+                            <div class="mb-4 sm:mb-6">
+                                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-1">E-Ticket Aktif Anda</h2>
+                                <p class="text-gray-500 text-xs sm:text-sm">Tunjukkan kode QR atau download PDF tiket untuk masuk ke area acara.</p>
                             </div>
 
                             @php
@@ -99,44 +99,54 @@
                                         @foreach($trx->details as $detail)
                                             @php $concert = $detail->ticketCategory->concert ?? null; @endphp
                                             @if($concert)
-                                                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 flex items-center gap-5">
+                                                <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5 relative overflow-hidden group">
+                                                    {{-- Decorative top border --}}
+                                                    <div class="absolute top-0 left-0 w-full h-1 bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                                    
                                                     {{-- QR Placeholder --}}
-                                                    <div class="w-20 h-20 bg-gray-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                                                        <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <div class="w-full sm:w-20 h-32 sm:h-20 bg-gray-50 sm:bg-gray-100 rounded-xl flex flex-col sm:flex-row items-center justify-center flex-shrink-0 border border-dashed border-gray-300 sm:border-none">
+                                                        <svg class="w-10 h-10 text-gray-400 mb-2 sm:mb-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                                                 d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
                                                         </svg>
+                                                        <span class="text-xs text-gray-400 font-medium sm:hidden">Tampilkan QR</span>
                                                     </div>
-                                                    <div class="flex-1 min-w-0">
-                                                        <p class="font-bold text-gray-900 truncate">{{ $concert->title }}</p>
-                                                        <p class="text-sm text-gray-500 mt-0.5">
+                                                    
+                                                    <div class="flex-1 min-w-0 flex flex-col">
+                                                        <div class="flex justify-between items-start gap-2 mb-1">
+                                                            <p class="font-bold text-gray-900 truncate text-sm sm:text-base">{{ $concert->title }}</p>
+                                                            <span class="px-2.5 py-0.5 text-[10px] sm:text-xs font-bold rounded-full bg-green-100 text-green-700 flex-shrink-0">AKTIF</span>
+                                                        </div>
+                                                        <p class="text-xs sm:text-sm text-gray-500 mt-0.5">
                                                             {{ $concert->event_date->translatedFormat('d M Y') }} &bull; {{ $concert->venue_name }}, {{ $concert->city }}
                                                         </p>
-                                                        <div class="flex items-center gap-3 mt-2">
-                                                            <span class="text-xs font-semibold bg-blue-50 text-blue-700 px-2 py-1 rounded-full">
+                                                        
+                                                        <div class="w-full border-t border-dashed border-gray-200 my-3 sm:hidden"></div>
+                                                        
+                                                        <div class="flex flex-wrap items-center gap-2 sm:gap-3 mt-auto sm:mt-2">
+                                                            <span class="text-[10px] sm:text-xs font-semibold bg-blue-50 text-blue-700 px-2 py-1 rounded-full">
                                                                 {{ $detail->ticketCategory->category_name }}
                                                             </span>
-                                                            <span class="text-xs text-gray-400">{{ $detail->quantity }} tiket</span>
-                                                            <span class="text-xs font-bold text-gray-700">{{ $trx->trx_code }}</span>
+                                                            <span class="text-[10px] sm:text-xs text-gray-400 font-medium">{{ $detail->quantity }} tiket</span>
+                                                            <span class="text-[10px] sm:text-xs font-bold text-gray-700 ml-auto sm:ml-0 bg-gray-50 px-2 py-1 rounded">{{ $trx->trx_code }}</span>
                                                         </div>
                                                     </div>
-                                                    <span class="px-3 py-1 text-xs font-bold rounded-full bg-green-100 text-green-700 flex-shrink-0">AKTIF</span>
                                                 </div>
                                             @endif
                                         @endforeach
                                     @endforeach
                                 </div>
                             @else
-                                <div class="bg-white rounded-2xl border border-gray-200 py-16 text-center">
-                                    <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="bg-white rounded-2xl border border-gray-200 py-12 sm:py-16 px-4 text-center">
+                                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <svg class="w-7 h-7 sm:w-8 sm:h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                                 d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/>
                                         </svg>
                                     </div>
-                                    <p class="text-gray-500 font-semibold">Belum ada e-ticket aktif</p>
-                                    <p class="text-sm text-gray-400 mt-1">Beli tiket konser untuk memulai!</p>
-                                    <a href="/konser" class="inline-block mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-full transition-colors">
+                                    <p class="text-gray-600 sm:text-gray-500 font-semibold text-sm sm:text-base">Belum ada e-ticket aktif</p>
+                                    <p class="text-xs sm:text-sm text-gray-400 mt-1">Beli tiket konser untuk memulai!</p>
+                                    <a href="/konser" class="inline-block mt-5 sm:mt-4 px-6 py-2.5 sm:py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold rounded-full transition-colors w-full sm:w-auto">
                                         Lihat Konser
                                     </a>
                                 </div>
@@ -144,10 +154,10 @@
                         </div>
 
                         {{-- Riwayat Pesanan --}}
-                        <div id="riwayat">
-                            <div class="mb-4">
-                                <h2 class="text-2xl font-bold text-gray-900 mb-1">Riwayat Pesanan</h2>
-                                <p class="text-gray-500 text-sm">Semua transaksi yang pernah Anda lakukan.</p>
+                        <div id="riwayat" class="scroll-mt-24">
+                            <div class="mb-4 sm:mb-6">
+                                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Riwayat Pesanan</h2>
+                                <p class="text-gray-500 text-xs sm:text-sm">Semua transaksi yang pernah Anda lakukan.</p>
                             </div>
 
                             @if($transactions->count() > 0)
@@ -155,13 +165,20 @@
                                     @foreach($transactions as $trx)
                                         <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
                                             {{-- Header transaksi --}}
-                                            <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-                                                <div>
-                                                    <p class="text-xs text-gray-400 font-medium">Kode Transaksi</p>
-                                                    <p class="font-bold text-gray-900 text-sm">{{ $trx->trx_code }}</p>
+                                            <div class="flex flex-col sm:flex-row sm:items-center justify-between px-4 sm:px-5 py-4 border-b border-gray-100 gap-3 sm:gap-0">
+                                                <div class="flex justify-between sm:block">
+                                                    <div>
+                                                        <p class="text-[10px] sm:text-xs text-gray-400 font-medium uppercase tracking-wider mb-0.5">Kode Transaksi</p>
+                                                        <p class="font-bold text-gray-900 text-xs sm:text-sm">{{ $trx->trx_code }}</p>
+                                                    </div>
+                                                    <div class="text-right sm:hidden">
+                                                        <p class="text-[10px] text-gray-400">{{ $trx->created_at->translatedFormat('d M Y') }}</p>
+                                                        <p class="text-[10px] text-gray-400">{{ $trx->created_at->translatedFormat('H:i') }}</p>
+                                                    </div>
                                                 </div>
-                                                <div class="text-right">
-                                                    <p class="text-xs text-gray-400">{{ $trx->created_at->translatedFormat('d M Y, H:i') }}</p>
+                                                <div class="flex items-center justify-between sm:block sm:text-right border-t border-gray-100 sm:border-0 pt-3 sm:pt-0">
+                                                    <p class="text-[10px] sm:text-xs text-gray-400 hidden sm:block">{{ $trx->created_at->translatedFormat('d M Y, H:i') }}</p>
+                                                    <span class="text-xs font-semibold sm:hidden text-gray-500">Status:</span>
                                                     @php
                                                         $statusMap = [
                                                             'pending'   => ['label' => 'Menunggu Pembayaran', 'class' => 'bg-yellow-100 text-yellow-700'],
@@ -170,49 +187,50 @@
                                                         ];
                                                         $badge = $statusMap[$trx->status] ?? ['label' => ucfirst($trx->status), 'class' => 'bg-gray-100 text-gray-700'];
                                                     @endphp
-                                                    <span class="inline-block mt-1 px-2.5 py-0.5 text-xs font-bold rounded-full {{ $badge['class'] }}">
+                                                    <span class="inline-block sm:mt-1 px-2.5 py-1 sm:py-0.5 text-[10px] sm:text-xs font-bold rounded-full {{ $badge['class'] }}">
                                                         {{ $badge['label'] }}
                                                     </span>
                                                 </div>
                                             </div>
 
                                             {{-- Detail item tiket --}}
-                                            <div class="px-5 py-3 space-y-2">
+                                            <div class="px-4 sm:px-5 py-3 space-y-3 sm:space-y-2">
                                                 @foreach($trx->details as $detail)
                                                     @php $cat = $detail->ticketCategory; $concert = $cat->concert ?? null; @endphp
-                                                    <div class="flex items-center justify-between text-sm">
+                                                    <div class="flex flex-col sm:flex-row sm:items-center justify-between text-sm gap-1 sm:gap-0">
                                                         <div>
-                                                            <p class="font-semibold text-gray-900">{{ $concert->title ?? '—' }}</p>
-                                                            <p class="text-gray-400 text-xs">{{ $cat->category_name ?? '—' }} &times; {{ $detail->quantity }}</p>
+                                                            <p class="font-semibold text-gray-900 text-sm">{{ $concert->title ?? '—' }}</p>
+                                                            <p class="text-gray-500 sm:text-gray-400 text-xs">{{ $cat->category_name ?? '—' }} &times; {{ $detail->quantity }} tiket</p>
                                                         </div>
-                                                        <p class="font-semibold text-gray-700">Rp {{ number_format($detail->subtotal, 0, ',', '.') }}</p>
+                                                        <p class="font-bold sm:font-semibold text-gray-700 text-sm">Rp {{ number_format($detail->subtotal, 0, ',', '.') }}</p>
                                                     </div>
                                                 @endforeach
                                             </div>
 
                                             {{-- Footer total --}}
-                                            <div class="flex items-center justify-between px-5 py-3 bg-gray-50 border-t border-gray-100">
-                                                <div class="text-xs text-gray-500">
-                                                    Metode: <span class="font-semibold capitalize">{{ str_replace('_', ' ', $trx->payment_method) }}</span>
+                                            <div class="flex flex-col sm:flex-row sm:items-center justify-between px-4 sm:px-5 py-3 sm:py-4 bg-gray-50 border-t border-gray-100 gap-2 sm:gap-0">
+                                                <div class="text-xs text-gray-500 flex justify-between sm:block">
+                                                    <span>Metode Pembayaran:</span>
+                                                    <span class="font-semibold text-gray-700 sm:text-gray-500 capitalize ml-1">{{ str_replace('_', ' ', $trx->payment_method) }}</span>
                                                 </div>
-                                                <div class="text-right">
-                                                    <p class="text-xs text-gray-400">Total Bayar</p>
-                                                    <p class="font-extrabold text-blue-600">Rp {{ number_format($trx->grand_total, 0, ',', '.') }}</p>
+                                                <div class="flex justify-between items-end sm:block sm:text-right border-t border-gray-200 sm:border-0 pt-2 sm:pt-0">
+                                                    <p class="text-xs text-gray-500 sm:text-gray-400">Total Bayar</p>
+                                                    <p class="text-base sm:text-lg font-black text-blue-600">Rp {{ number_format($trx->grand_total, 0, ',', '.') }}</p>
                                                 </div>
                                             </div>
                                         </div>
                                     @endforeach
                                 </div>
                             @else
-                                <div class="bg-white rounded-2xl border border-gray-200 py-16 text-center">
-                                    <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="bg-white rounded-2xl border border-gray-200 py-12 sm:py-16 px-4 text-center">
+                                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <svg class="w-7 h-7 sm:w-8 sm:h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                                 d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                                         </svg>
                                     </div>
-                                    <p class="text-gray-500 font-semibold">Belum ada riwayat pesanan</p>
-                                    <p class="text-sm text-gray-400 mt-1">Mulai pesan tiket konser favoritmu!</p>
+                                    <p class="text-gray-600 sm:text-gray-500 font-semibold text-sm sm:text-base">Belum ada riwayat pesanan</p>
+                                    <p class="text-xs sm:text-sm text-gray-400 mt-1">Mulai pesan tiket konser favoritmu!</p>
                                 </div>
                             @endif
                         </div>

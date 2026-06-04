@@ -1,40 +1,40 @@
 <x-layout>
-<div style="background:#f8fafc; min-height:100vh;">
+<div class="bg-slate-50 min-h-screen pb-12">
 
     {{-- ── Breadcrumb ── --}}
-    <div style="background:#fff; border-bottom:1px solid #f1f5f9;">
-        <div style="max-width:1100px; margin:0 auto; padding:10px 24px;">
-            <nav style="display:flex; align-items:center; gap:6px; font-size:12px; color:#94a3b8;">
-                <a href="{{ route('home') }}" style="color:#94a3b8; text-decoration:none;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='#94a3b8'">Beranda</a>
-                <span style="color:#cbd5e1;">›</span>
-                <a href="/konser" style="color:#94a3b8; text-decoration:none;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='#94a3b8'">Konser</a>
-                <span style="color:#cbd5e1;">›</span>
-                <span style="color:#475569; font-weight:500;">{{ $concert->title }}</span>
+    <div class="bg-white border-b border-slate-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <nav class="flex items-center gap-2 text-xs sm:text-sm text-slate-400">
+                <a href="{{ route('home') }}" class="hover:text-blue-500 transition-colors">Beranda</a>
+                <span class="text-slate-300">›</span>
+                <a href="/konser" class="hover:text-blue-500 transition-colors">Konser</a>
+                <span class="text-slate-300">›</span>
+                <span class="text-slate-600 font-medium truncate">{{ $concert->title }}</span>
             </nav>
         </div>
     </div>
 
-    <div style="max-width:1100px; margin:0 auto; padding:24px;">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
 
         {{-- ── Header ── --}}
-        <div style="margin-bottom:20px;">
-            <h1 style="font-size:22px; font-weight:800; color:#0f172a; margin:0 0 10px;">{{ $concert->title }}</h1>
+        <div class="mb-6 sm:mb-8">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">{{ $concert->title }}</h1>
             @if($concert->artists->isNotEmpty())
-                <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-top:8px;">
+                <div class="flex flex-wrap items-center gap-3 mt-2">
                     @foreach($concert->artists as $artist)
-                        <div style="display:flex; align-items:center; gap:8px; background:#eff6ff; border-radius:100px; padding:5px 14px 5px 5px; border:1px solid #dbeafe;">
+                        <div class="flex items-center gap-2 bg-blue-50 rounded-full pr-4 p-1 border border-blue-100">
                             @if($artist->image_url)
                                 <img src="{{ Storage::url($artist->image_url) }}" alt="{{ $artist->name }}"
-                                     style="width:30px; height:30px; border-radius:50%; object-fit:cover; border:2px solid #bfdbfe; flex-shrink:0;">
+                                     class="w-8 h-8 rounded-full object-cover border-2 border-blue-200 shrink-0">
                             @else
-                                <div style="width:30px; height:30px; border-radius:50%; background:#3b82f6; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:11px; font-weight:700; color:#fff;">
+                                <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center shrink-0 text-xs font-bold text-white">
                                     {{ strtoupper(substr($artist->name, 0, 1)) }}
                                 </div>
                             @endif
                             <div>
-                                <p style="font-weight:700; color:#1e40af; font-size:12px; margin:0; line-height:1.2;">{{ $artist->name }}</p>
+                                <p class="font-bold text-blue-900 text-xs sm:text-sm m-0 leading-tight">{{ $artist->name }}</p>
                                 @if($artist->genre)
-                                    <p style="font-size:10px; color:#60a5fa; margin:0;">{{ $artist->genre }}</p>
+                                    <p class="text-[10px] sm:text-xs text-blue-400 m-0">{{ $artist->genre }}</p>
                                 @endif
                             </div>
                         </div>
@@ -44,102 +44,98 @@
         </div>
 
         {{-- ── Two-Column Layout ── --}}
-        <div style="display:flex; gap:20px; align-items:flex-start;">
+        <div class="flex flex-col md:flex-row gap-6 lg:gap-8 items-start">
 
             {{-- LEFT COLUMN --}}
-            <div style="flex:1; min-width:0;">
+            <div class="flex-1 min-w-0 w-full">
 
                 {{-- Concert Info Card --}}
-                <div style="background:#fff; border:1px solid #e2e8f0; border-radius:16px; overflow:hidden; display:flex; margin-bottom:20px; box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col sm:flex-row mb-6 sm:mb-8 shadow-sm">
                     {{-- Banner --}}
-                    <div style="width:200px; min-height:160px; background:#f1f5f9; flex-shrink:0; overflow:hidden;">
+                    <div class="w-full sm:w-48 md:w-64 h-48 sm:h-auto bg-slate-100 shrink-0 overflow-hidden relative">
                         @if($concert->banner_url)
-                            <img src="{{ Storage::url($concert->banner_url) }}" alt="{{ $concert->title }}" style="width:100%; height:100%; object-fit:cover; display:block;">
+                            <img src="{{ Storage::url($concert->banner_url) }}" alt="{{ $concert->title }}" class="absolute inset-0 w-full h-full object-cover">
                         @else
-                            <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; min-height:160px;">
-                                <svg style="width:40px; height:40px; color:#cbd5e1;" fill="none" stroke="#cbd5e1" viewBox="0 0 24 24">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <svg class="w-10 h-10 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 5v2M15 11v2M15 17v2M5 5h14a2 2 0 012 2v3a2 2 0 000 4v3a2 2 0 01-2 2H5a2 2 0 01-2-2v-3a2 2 0 000-4V7a2 2 0 012-2z"/>
                                 </svg>
                             </div>
                         @endif
                     </div>
                     {{-- Date & Venue --}}
-                    <div style="flex:1; padding:20px 24px; display:flex; flex-direction:column; justify-content:center; gap:16px;">
-                        <div style="display:flex; align-items:center; gap:12px;">
-                            <div style="width:36px; height:36px; border-radius:10px; background:#eff6ff; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                                <svg style="width:18px; height:18px;" fill="none" stroke="#3b82f6" viewBox="0 0 24 24">
+                    <div class="flex-1 p-5 sm:p-6 lg:p-8 flex flex-col justify-center gap-4 sm:gap-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                 </svg>
                             </div>
                             <div>
-                                <p style="font-weight:700; color:#0f172a; font-size:13px; margin:0 0 2px;">{{ $concert->event_date->translatedFormat('l, d F Y') }}</p>
-                                <p style="font-size:12px; color:#94a3b8; margin:0;">{{ $concert->event_time ?? '19.00' }} WIB</p>
+                                <p class="font-bold text-slate-900 text-sm sm:text-base mb-0.5">{{ $concert->event_date->translatedFormat('l, d F Y') }}</p>
+                                <p class="text-xs sm:text-sm text-slate-400 m-0">{{ $concert->event_time ?? '19.00' }} WIB</p>
                             </div>
                         </div>
-                        <div style="display:flex; align-items:center; gap:12px;">
-                            <div style="width:36px; height:36px; border-radius:10px; background:#ecfeff; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                                <svg style="width:18px; height:18px;" fill="#06b6d4" viewBox="0 0 20 20">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-cyan-50 flex items-center justify-center shrink-0">
+                                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-cyan-500" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
                                 </svg>
                             </div>
                             <div>
-                                <p style="font-weight:700; color:#0f172a; font-size:13px; margin:0 0 2px;">{{ $concert->venue_name }}</p>
-                                <p style="font-size:12px; color:#94a3b8; margin:0;">{{ $concert->city }}</p>
+                                <p class="font-bold text-slate-900 text-sm sm:text-base mb-0.5">{{ $concert->venue_name }}</p>
+                                <p class="text-xs sm:text-sm text-slate-400 m-0">{{ $concert->city }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {{-- ── Section: Pilih Kategori Tiket ── --}}
-                <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
-                    <div style="width:26px; height:26px; border-radius:50%; background:#3b82f6; color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; box-shadow:0 2px 6px rgba(59,130,246,0.35);">1</div>
-                    <h2 style="font-size:15px; font-weight:800; color:#0f172a; margin:0;">Pilih Kategori Tiket</h2>
+                <div class="flex items-center gap-3 mb-4 sm:mb-5">
+                    <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-blue-500 text-white flex items-center justify-center text-sm font-bold shrink-0 shadow-md shadow-blue-500/30">1</div>
+                    <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 m-0">Pilih Kategori Tiket</h2>
                 </div>
 
                 <form method="POST" action="{{ route('checkout.cart.save', $concert) }}" id="ticket-form">
                     @csrf
 
                     @if($errors->any())
-                        <div style="margin-bottom:14px; background:#fef2f2; border:1px solid #fecaca; color:#dc2626; border-radius:10px; padding:10px 14px; font-size:13px; display:flex; align-items:center; gap:8px;">
-                            <svg style="width:16px; height:16px; flex-shrink:0;" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                        <div class="mb-4 sm:mb-5 bg-red-50 border border-red-200 text-red-600 rounded-xl p-3 sm:p-4 text-sm flex items-center gap-2">
+                            <svg class="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
                             {{ $errors->first() }}
                         </div>
                     @endif
 
-                    <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:18px;">
+                    <div class="flex flex-col gap-3 mb-6 sm:mb-8">
                         @forelse($concert->ticketCategories as $cat)
-                            <div id="row-{{ $cat->id }}" style="background:#fff; border-radius:12px; border:2px solid #f1f5f9; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; transition:all 0.2s; box-shadow:0 1px 3px rgba(0,0,0,0.04);"
-                                onmouseover="if(!this.classList.contains('selected')){this.style.borderColor='#bfdbfe';this.style.boxShadow='0 2px 8px rgba(59,130,246,0.1)';}"
-                                onmouseout="if(!this.classList.contains('selected')){this.style.borderColor='#f1f5f9';this.style.boxShadow='0 1px 3px rgba(0,0,0,0.04)';}">
+                            <div id="row-{{ $cat->id }}" class="bg-white rounded-xl sm:rounded-2xl border-2 border-slate-100 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all duration-200 hover:border-blue-200 hover:shadow-md hover:shadow-blue-500/5 shadow-sm">
                                 <div>
-                                    <p style="font-weight:700; color:#0f172a; font-size:14px; margin:0 0 3px;">{{ $cat->category_name }}</p>
-                                    <p style="font-size:12px; color:#94a3b8; margin:0;">{{ $cat->available_quota }} tiket tersedia</p>
+                                    <p class="font-bold text-slate-900 text-sm sm:text-base mb-1">{{ $cat->category_name }}</p>
+                                    <p class="text-xs sm:text-sm text-slate-400 m-0">{{ $cat->available_quota }} tiket tersedia</p>
                                 </div>
-                                <div style="display:flex; align-items:center; gap:16px;">
-                                    <p style="font-weight:700; color:#0f172a; font-size:14px; margin:0;">Rp {{ number_format($cat->price, 0, ',', '.') }}</p>
-                                    <div style="display:flex; align-items:center; gap:6px; background:#f8fafc; border-radius:100px; padding:3px; border:1px solid #e2e8f0;">
+                                <div class="flex items-center justify-between sm:justify-end gap-4 sm:gap-6 border-t sm:border-t-0 border-slate-100 pt-3 sm:pt-0 mt-1 sm:mt-0">
+                                    <p class="font-bold text-slate-900 text-sm sm:text-base m-0">Rp {{ number_format($cat->price, 0, ',', '.') }}</p>
+                                    <div class="flex items-center gap-2 bg-slate-50 rounded-full p-1 border border-slate-200">
                                         <button type="button" onclick="changeQty({{ $cat->id }}, -1)"
-                                            style="width:28px; height:28px; border-radius:50%; background:#fff; border:1px solid #e2e8f0; color:#64748b; display:flex; align-items:center; justify-content:center; font-weight:700; cursor:pointer; font-size:14px; line-height:1; transition:all 0.15s;"
-                                            onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#fff'">−</button>
-                                        <span id="qty-display-{{ $cat->id }}" style="width:22px; text-align:center; font-weight:700; color:#0f172a; font-size:14px;">0</span>
+                                            class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white border border-slate-200 text-slate-500 flex items-center justify-center font-bold hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">−</button>
+                                        <span id="qty-display-{{ $cat->id }}" class="w-6 sm:w-8 text-center font-bold text-slate-900 text-sm sm:text-base">0</span>
                                         <input type="hidden" name="tickets[{{ $cat->id }}][qty]" id="qty-{{ $cat->id }}" value="0">
                                         <button type="button" onclick="changeQty({{ $cat->id }}, 1)"
-                                            style="width:28px; height:28px; border-radius:50%; background:#fff; border:1px solid #e2e8f0; color:#64748b; display:flex; align-items:center; justify-content:center; font-weight:700; cursor:pointer; font-size:14px; line-height:1; transition:all 0.15s;"
-                                            onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#fff'">+</button>
+                                            class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white border border-slate-200 text-slate-500 flex items-center justify-center font-bold hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">+</button>
                                     </div>
                                 </div>
                             </div>
                         @empty
-                            <div style="background:#f8fafc; border-radius:12px; border:2px dashed #e2e8f0; padding:40px; text-align:center; color:#94a3b8; font-size:14px;">
+                            <div class="bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200 p-8 sm:p-10 text-center text-slate-400 text-sm sm:text-base">
                                 Belum ada kategori tiket tersedia.
                             </div>
                         @endforelse
                     </div>
 
                     {{-- ── Informasi Pertunjukan ── --}}
-                    <div style="background:#fff; border-radius:12px; border:1px solid #e2e8f0; padding:18px 20px; box-shadow:0 1px 3px rgba(0,0,0,0.04);">
-                        <h3 style="font-size:14px; font-weight:700; color:#0f172a; margin:0 0 8px;">Informasi Pertunjukan</h3>
-                        <p style="color:#64748b; font-size:13px; line-height:1.65; margin:0;">
+                    <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm">
+                        <h3 class="text-sm sm:text-base font-bold text-slate-900 mb-2 sm:mb-3">Informasi Pertunjukan</h3>
+                        <p class="text-slate-500 text-sm leading-relaxed m-0">
                             {{ $concert->description ?: 'Rasakan pengalaman tata suara retro-futuristik terbaik bersama pionir synthwave. Pengalaman visual dan audio penuh dengan tata letak laser yang imersif.' }}
                         </p>
                     </div>
@@ -147,70 +143,68 @@
             </div>
 
             {{-- RIGHT SIDEBAR --}}
-            <div style="width:300px; flex-shrink:0;">
-                <div style="position:sticky; top:24px; display:flex; flex-direction:column; gap:16px;">
+            <div class="w-full md:w-[340px] shrink-0">
+                <div class="sticky top-20 sm:top-24 flex flex-col gap-4 sm:gap-6">
 
                     {{-- Ringkasan --}}
-                    <div style="background:#1a2744; border-radius:18px; padding:20px; color:#fff; box-shadow:0 4px 20px rgba(26,39,68,0.25);">
-                        <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
-                            <div style="width:24px; height:24px; border-radius:50%; background:#3b82f6; color:#fff; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;">2</div>
-                            <h3 style="font-weight:700; font-size:14px; margin:0;">Ringkasan</h3>
+                    <div class="bg-[#1a2744] rounded-2xl sm:rounded-[24px] p-5 sm:p-6 text-white shadow-xl shadow-[#1a2744]/20">
+                        <div class="flex items-center gap-3 mb-4 sm:mb-5">
+                            <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-blue-500 text-white flex items-center justify-center text-xs sm:text-sm font-bold shrink-0">2</div>
+                            <h3 class="font-bold text-sm sm:text-base m-0">Ringkasan</h3>
                         </div>
 
-                        <div style="margin-bottom:16px;">
-                            <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; color:rgba(255,255,255,0.45); padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.1); margin-bottom:12px;">
+                        <div class="mb-4 sm:mb-5">
+                            <div class="flex justify-between items-center text-xs sm:text-sm text-white/50 pb-3 border-b border-white/10 mb-3">
                                 <span>Pilihan</span>
-                                <span id="summary-items-label" style="font-weight:600;">—</span>
+                                <span id="summary-items-label" class="font-semibold">—</span>
                             </div>
-                            <div id="selected-items-container" style="display:flex; flex-direction:column; gap:8px;">
+                            <div id="selected-items-container" class="flex flex-col gap-2.5">
                                 <!-- JS injected items -->
                             </div>
                         </div>
 
-                        <div style="padding-top:14px; border-top:1px solid rgba(255,255,255,0.1); margin-bottom:16px;">
-                            <p style="font-size:11px; color:rgba(255,255,255,0.4); margin:0 0 4px; text-transform:uppercase; letter-spacing:0.05em;">Total Tagihan</p>
-                            <p id="summary-total" style="font-size:26px; font-weight:900; color:#60a5fa; margin:0;">Rp 0</p>
+                        <div class="pt-4 border-t border-white/10 mb-5 sm:mb-6">
+                            <p class="text-[10px] sm:text-xs text-white/40 mb-1 uppercase tracking-wider font-semibold">Total Tagihan</p>
+                            <p id="summary-total" class="text-2xl sm:text-3xl font-black text-blue-400 m-0">Rp 0</p>
                         </div>
 
                         @auth
                             <button type="submit" form="ticket-form"
-                                style="width:100%; padding:12px; background:#3b82f6; border:none; color:#fff; font-weight:700; border-radius:10px; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:background 0.2s; box-shadow:0 4px 12px rgba(59,130,246,0.35);"
-                                onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='#3b82f6'">
+                                class="w-full py-3.5 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl text-sm sm:text-base flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-500/30 focus:outline-none focus:ring-4 focus:ring-blue-500/50">
                                 Lanjut ke Keranjang
-                                <svg style="width:14px;height:14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                             </button>
                         @else
                             <a href="{{ route('login') }}"
-                                style="width:100%; padding:12px; background:#3b82f6; color:#fff; font-weight:700; border-radius:10px; font-size:13px; display:flex; align-items:center; justify-content:center; gap:6px; text-decoration:none; transition:background 0.2s; box-shadow:0 4px 12px rgba(59,130,246,0.35);"
-                                onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='#3b82f6'">
-                                Login untuk Membeli Tiket
-                                <svg style="width:14px;height:14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                                class="w-full py-3.5 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl text-sm sm:text-base flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-500/30 text-center">
+                                Login untuk Membeli
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                             </a>
-                            <p style="font-size:11px; color:rgba(255,255,255,0.3); text-align:center; margin-top:10px; line-height:1.5;">
+                            <p class="text-[10px] sm:text-xs text-white/40 text-center mt-3 leading-relaxed">
                                 Anda perlu login terlebih dahulu untuk membeli tiket.
                             </p>
                         @endauth
                     </div>
 
                     {{-- Denah Panggung & Area --}}
-                    <div style="background:#fff; border-radius:18px; border:1px solid #f1f5f9; padding:18px; box-shadow:0 1px 4px rgba(0,0,0,0.05); text-align:center;">
-                        <h4 style="font-weight:700; color:#0f172a; font-size:13px; margin:0 0 14px;">Denah Panggung & Area</h4>
-                        <div style="aspect-ratio:1/1; background:#f8fafc; border-radius:50%; border:1px solid #e2e8f0; margin-bottom:14px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; max-width:220px; margin-left:auto; margin-right:auto;">
-                            <div style="width:110px; height:110px; border:3px solid #dbeafe; border-radius:50%; display:flex; align-items:center; justify-content:center; position:relative;">
-                                <div style="width:70px; height:35px; background:#eff6ff; border:2px solid #bfdbfe; border-radius:35px 35px 0 0; display:flex; align-items:center; justify-content:center; position:absolute; bottom:50%; left:50%; transform:translateX(-50%);">
-                                    <span style="font-size:8px; font-weight:700; color:#93c5fd; text-transform:uppercase; letter-spacing:0.08em;">Panggung</span>
+                    <div class="bg-white rounded-2xl sm:rounded-[24px] border border-slate-100 p-5 sm:p-6 shadow-sm text-center">
+                        <h4 class="font-bold text-slate-900 text-sm sm:text-base mb-4">Denah Panggung & Area</h4>
+                        <div class="aspect-square bg-slate-50 rounded-full border border-slate-200 mb-4 sm:mb-5 flex items-center justify-center relative overflow-hidden w-full max-w-[200px] sm:max-w-[240px] mx-auto">
+                            <div class="w-24 h-24 sm:w-32 sm:h-32 border-[3px] border-blue-100 rounded-full flex items-center justify-center relative">
+                                <div class="w-16 h-8 sm:w-20 sm:h-10 bg-blue-50 border-2 border-blue-200 rounded-t-full flex items-center justify-center absolute bottom-1/2 left-1/2 -translate-x-1/2">
+                                    <span class="text-[8px] sm:text-[10px] font-bold text-blue-300 uppercase tracking-widest">Panggung</span>
                                 </div>
                             </div>
                         </div>
-                        <div style="display:flex; justify-content:center; gap:14px;">
-                            <div style="display:flex; align-items:center; gap:5px; font-size:10px; font-weight:600; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em;">
-                                <div style="width:8px; height:8px; border-radius:50%; background:#3b82f6;"></div> Dipilih
+                        <div class="flex flex-wrap justify-center gap-3 sm:gap-4">
+                            <div class="flex items-center gap-1.5 text-[10px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                                <div class="w-2.5 h-2.5 rounded-full bg-blue-500"></div> Dipilih
                             </div>
-                            <div style="display:flex; align-items:center; gap:5px; font-size:10px; font-weight:600; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em;">
-                                <div style="width:8px; height:8px; border-radius:50%; background:#94a3b8;"></div> Tersedia
+                            <div class="flex items-center gap-1.5 text-[10px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                                <div class="w-2.5 h-2.5 rounded-full bg-slate-400"></div> Tersedia
                             </div>
-                            <div style="display:flex; align-items:center; gap:5px; font-size:10px; font-weight:600; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em;">
-                                <div style="width:8px; height:8px; border-radius:50%; background:#f87171;"></div> Habis
+                            <div class="flex items-center gap-1.5 text-[10px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                                <div class="w-2.5 h-2.5 rounded-full bg-red-400"></div> Habis
                             </div>
                         </div>
                     </div>
@@ -238,13 +232,11 @@
         display.innerText = val;
 
         if (val > 0) {
-            row.style.borderColor = '#3b82f6';
-            row.style.background = 'rgba(239,246,255,0.5)';
-            row.style.boxShadow = '0 2px 8px rgba(59,130,246,0.12)';
+            row.classList.add('border-blue-500', 'bg-blue-50/50', 'shadow-md', 'shadow-blue-500/10');
+            row.classList.remove('border-slate-100', 'bg-white', 'shadow-sm');
         } else {
-            row.style.borderColor = '#f1f5f9';
-            row.style.background = '#fff';
-            row.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)';
+            row.classList.remove('border-blue-500', 'bg-blue-50/50', 'shadow-md', 'shadow-blue-500/10');
+            row.classList.add('border-slate-100', 'bg-white', 'shadow-sm');
         }
 
         updateSummary();
@@ -266,9 +258,9 @@
                 lastItemLabel = `${qty} × ${name}`;
 
                 summaryHtml += `
-                    <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px;">
-                        <span style="color:rgba(255,255,255,0.55);">${qty} × ${name}</span>
-                        <span style="font-weight:600; color:#fff;">Rp ${(price * qty).toLocaleString('id-ID')}</span>
+                    <div class="flex justify-between items-center text-xs sm:text-sm">
+                        <span class="text-white/60">${qty} × ${name}</span>
+                        <span class="font-semibold text-white">Rp ${(price * qty).toLocaleString('id-ID')}</span>
                     </div>
                 `;
             }
