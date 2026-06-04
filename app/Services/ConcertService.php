@@ -30,9 +30,10 @@ class ConcertService
             Concert::active()
                 ->selectRaw("DATE_FORMAT(event_date, '%Y-%m') as month_key, DATE_FORMAT(event_date, '%M %Y') as month_label")
                 ->distinct()
-                ->orderBy('event_date')
                 ->get()
+                ->sortBy('month_key')
                 ->map(fn ($c) => ['month_key' => $c->month_key, 'month_label' => $c->month_label])
+                ->values()
                 ->toArray()
         );
     }

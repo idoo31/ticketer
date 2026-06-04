@@ -224,20 +224,34 @@
                               const file = e.target.files[0];
                               if (file) this.previewUrl = URL.createObjectURL(file);
                           },
-                          allArtists: @json($artists),
+                          allArtists: [],
+                          artistsLoaded: false,
                           selectedArtists: @json(collect(old('artist_ids', []))->map(fn($id) => $artists->firstWhere('id', (int)$id))->filter()->values()),
                           artistSearch: '',
                           showArtistDropdown: false,
+                          fetchArtists(q = '') {
+                              fetch(`{{ route('admin.artists.search') }}?q=${encodeURIComponent(q)}`)
+                                  .then(r => r.json())
+                                  .then(data => { this.allArtists = data; this.artistsLoaded = true; });
+                          },
                           get filteredArtists() {
-                              const q = this.artistSearch.toLowerCase();
                               return this.allArtists.filter(a =>
-                                  !this.selectedArtists.find(s => s.id === a.id) &&
-                                  a.name.toLowerCase().includes(q)
+                                  !this.selectedArtists.find(s => s.id === a.id)
                               );
+                          },
+                          openDropdown() {
+                              this.showArtistDropdown = true;
+                              if (!this.artistsLoaded) this.fetchArtists();
+                          },
+                          onSearchInput() {
+                              this.showArtistDropdown = true;
+                              clearTimeout(this._debounce);
+                              this._debounce = setTimeout(() => this.fetchArtists(this.artistSearch), 300);
                           },
                           selectArtist(artist) {
                               this.selectedArtists.push(artist);
                               this.artistSearch = '';
+                              this.allArtists = this.allArtists.filter(a => a.id !== artist.id);
                               this.showArtistDropdown = false;
                           },
                           removeArtist(id) {
@@ -396,8 +410,8 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                                     </svg>
                                     <input type="text" x-model="artistSearch"
-                                           @focus="showArtistDropdown = true"
-                                           @input="showArtistDropdown = true"
+                                           @focus="openDropdown()"
+                                           @input="onSearchInput()"
                                            placeholder="Cari dan pilih artis..."
                                            class="w-full bg-transparent border-none focus:ring-0 text-sm outline-none text-gray-900 placeholder-gray-400">
                                 </div>

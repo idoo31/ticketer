@@ -59,6 +59,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     // Manajemen Artis
     Route::get('/artis', [ArtistController::class, 'index'])->name('admin.artists.index');
     Route::post('/artis', [ArtistController::class, 'store'])->name('admin.artists.store');
+    Route::get('/artis/search', [ArtistController::class, 'search'])->name('admin.artists.search');
     Route::get('/artis/{artis}/edit', [ArtistController::class, 'edit'])->name('admin.artists.edit');
     Route::put('/artis/{artis}', [ArtistController::class, 'update'])->name('admin.artists.update');
     Route::delete('/artis/{artis}', [ArtistController::class, 'destroy'])->name('admin.artists.destroy');

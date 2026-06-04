@@ -36,6 +36,22 @@ class ArtistController extends Controller
     }
 
     /**
+     * Endpoint AJAX — kembalikan artis aktif dalam format JSON.
+     * Digunakan oleh form tambah/edit konser untuk pencarian artis real-time.
+     */
+    public function search(Request $request)
+    {
+        $q = trim($request->input('q', ''));
+
+        $artists = Artist::active()
+            ->when($q, fn($query) => $query->where('name', 'like', "%{$q}%"))
+            ->orderBy('name')
+            ->get(['id', 'name', 'genre']);
+
+        return response()->json($artists);
+    }
+
+    /**
      * Simpan artis baru.
      */
     public function store(StoreArtistRequest $request): RedirectResponse
