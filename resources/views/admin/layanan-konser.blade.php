@@ -230,7 +230,7 @@
                           },
                           allArtists: [],
                           artistsLoaded: false,
-                          selectedArtists: @json(collect(old('artist_ids', []))->map(fn($id) => $artists->firstWhere('id', (int)$id))->filter()->values()),
+                          selectedArtists: {{ json_encode(collect(old('artist_ids', []))->map(fn($id) => $artists->firstWhere('id', (int)$id))->filter()->values()) }},
                           artistSearch: '',
                           showArtistDropdown: false,
                           fetchArtists(q = '') {

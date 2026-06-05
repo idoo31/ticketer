@@ -3,18 +3,12 @@
 <header class="border-b border-gray-200 bg-white sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16 md:h-20">
-            <!-- Logo & Portal Admin -->
+            <!-- Logo -->
             <div class="flex-shrink-0 flex items-center gap-4">
                 <a href="/" class="flex items-center gap-2">
                     <img src="{{ asset('logo.svg') }}" alt="Ticketer Logo" class="h-7 w-7 md:h-8 md:w-8">
                     <span class="font-bold text-xl md:text-2xl tracking-tight text-gray-900">TICKETER</span>
                 </a>
-
-                @if($type === 'admin')
-                    <a href="/admin" class="hidden md:inline-flex items-center justify-center px-4 py-1.5 border border-transparent text-sm font-semibold rounded-full text-white bg-blue-400 hover:bg-blue-500 transition-colors shadow-sm">
-                        Portal Admin
-                    </a>
-                @endif
             </div>
 
             <!-- Navigation Links (Desktop) -->
@@ -36,12 +30,21 @@
                             Masuk/Daftar
                         </a>
                     @else
-                        <a href="{{ $type === 'admin' ? '/admin/akun' : '/akun' }}" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-transparent text-sm font-semibold rounded-full text-white bg-blue-500 hover:bg-blue-600 transition-colors shadow-sm">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                            </svg>
-                            Akun saya
-                        </a>
+                        @if($type === 'admin')
+                            <a href="/admin" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-transparent text-sm font-semibold rounded-full text-white bg-blue-500 hover:bg-blue-600 transition-colors shadow-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                                Portal Admin
+                            </a>
+                        @else
+                            <a href="/akun" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-transparent text-sm font-semibold rounded-full text-white bg-blue-500 hover:bg-blue-600 transition-colors shadow-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                </svg>
+                                Akun saya
+                            </a>
+                        @endif
                         <form method="POST" action="{{ route('logout') }}" class="inline">
                             @csrf
                             <button type="submit" class="inline-flex items-center justify-center px-5 py-2.5 border border-red-50 text-sm font-semibold rounded-full text-red-600 hover:bg-red-50 transition-colors">
@@ -94,10 +97,17 @@
                     Masuk / Daftar
                 </a>
             @else
-                <a href="{{ $type === 'admin' ? '/admin/akun' : '/akun' }}" class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 rounded-xl text-sm font-semibold">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                    Akun Saya
-                </a>
+                @if($type === 'admin')
+                    <a href="/admin" class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 rounded-xl text-sm font-semibold">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        Portal Admin
+                    </a>
+                @else
+                    <a href="/akun" class="flex items-center gap-3 px-4 py-3 bg-blue-50 text-blue-700 rounded-xl text-sm font-semibold">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        Akun Saya
+                    </a>
+                @endif
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="flex items-center gap-3 w-full px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl text-sm font-semibold transition-colors">
@@ -105,14 +115,6 @@
                         Keluar
                     </button>
                 </form>
-                @if($type === 'admin')
-                    <div class="border-t border-gray-100 pt-2">
-                        <a href="/admin" class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-xl text-sm font-semibold transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                            Portal Admin
-                        </a>
-                    </div>
-                @endif
             @endif
         </div>
     </div>

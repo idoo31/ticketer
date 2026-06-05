@@ -40,7 +40,7 @@
                       },
                       allArtists: [],
                       artistsLoaded: false,
-                      selectedArtists: @json($concert->artists->map(fn($a) => ['id' => $a->id, 'name' => $a->name, 'genre' => $a->genre])->values()),
+                      selectedArtists: {{ json_encode($concert->artists->map(fn($a) => ['id' => $a->id, 'name' => $a->name, 'genre' => $a->genre])->values()) }},
                       artistSearch: '',
                       showArtistDropdown: false,
                       fetchArtists(q = '') {
