@@ -25,16 +25,16 @@
         <div class="overflow-x-auto">
             <div class="min-w-[900px]">
                 <!-- Table Header -->
-                <div class="bg-[#1f2937] px-6 py-4 grid grid-cols-12 gap-4 items-center">
-            <div class="col-span-2 text-xs font-semibold text-gray-300">ID & Tanggal Resi</div>
-            <div class="col-span-2 text-xs font-semibold text-gray-300">Kredensial Pengguna</div>
-            <div class="col-span-4 text-xs font-semibold text-gray-300">Informasi Item</div>
-            <div class="col-span-2 text-xs font-semibold text-gray-300 text-right">Pendapatan</div>
-            <div class="col-span-2 text-xs font-semibold text-gray-300 text-center">Status Validasi</div>
+                <div class="bg-blue-600 px-6 py-4 grid grid-cols-12 gap-4 items-center">
+            <div class="col-span-2 text-sm font-semibold text-white">ID & Tanggal Resi</div>
+            <div class="col-span-2 text-sm font-semibold text-white">Kredensial Pengguna</div>
+            <div class="col-span-4 text-sm font-semibold text-white">Informasi Item</div>
+            <div class="col-span-2 text-sm font-semibold text-white text-right">Pendapatan</div>
+            <div class="col-span-2 text-sm font-semibold text-white text-center">Status Validasi</div>
         </div>
 
         <!-- Table Body -->
-        <div class="divide-y divide-gray-100">
+        <div class="divide-y divide-gray-50">
             @forelse($transactions as $trx)
                 @php
                     $statusBadge = match($trx->status) {

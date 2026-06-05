@@ -57,19 +57,19 @@
             <div class="overflow-x-auto">
                 <div class="min-w-[900px]">
                     {{-- Table Header --}}
-                    <div class="bg-[#1f2937] px-6 py-4 grid grid-cols-12 gap-4 items-center">
-                <div class="col-span-4 text-xs font-semibold text-gray-300">Detail Acara</div>
-                <div class="col-span-2 text-xs font-semibold text-gray-300">Lokasi</div>
-                <div class="col-span-2 text-xs font-semibold text-gray-300">Tanggal & Waktu</div>
-                <div class="col-span-2 text-xs font-semibold text-gray-300">Status</div>
-                <div class="col-span-1 text-xs font-semibold text-gray-300">Tiket</div>
-                <div class="col-span-1 text-xs font-semibold text-gray-300 text-center">Aksi</div>
+                    <div class="bg-blue-600 px-6 py-4 grid grid-cols-12 gap-4 items-center">
+                <div class="col-span-4 text-sm font-semibold text-white">Detail Acara</div>
+                <div class="col-span-2 text-sm font-semibold text-white">Lokasi</div>
+                <div class="col-span-2 text-sm font-semibold text-white">Tanggal & Waktu</div>
+                <div class="col-span-2 text-sm font-semibold text-white">Status</div>
+                <div class="col-span-1 text-sm font-semibold text-white">Tiket</div>
+                <div class="col-span-1 text-sm font-semibold text-white text-center">Aksi</div>
             </div>
 
             {{-- Table Body --}}
-            <div class="divide-y divide-gray-100">
+            <div class="divide-y divide-gray-50">
                 @forelse($concerts as $concert)
-                    <div class="px-6 py-5 grid grid-cols-12 gap-4 items-center">
+                    <div class="px-6 py-5 grid grid-cols-12 gap-4 items-center hover:bg-blue-50/40 transition-colors duration-150">
 
                         {{-- Detail Acara (dengan gambar) --}}
                         <div class="col-span-4 flex items-center gap-4">

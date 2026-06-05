@@ -68,19 +68,19 @@
             <div class="overflow-x-auto">
                 <div class="min-w-[800px]">
                     {{-- Header --}}
-                    <div class="bg-[#1f2937] px-6 py-4 grid grid-cols-12 gap-4 items-center">
-                <div class="col-span-1 text-xs font-semibold text-gray-300">Foto</div>
-                <div class="col-span-3 text-xs font-semibold text-gray-300">Nama Artis</div>
-                <div class="col-span-2 text-xs font-semibold text-gray-300">Genre</div>
-                <div class="col-span-2 text-xs font-semibold text-gray-300">Asal/Kota</div>
-                <div class="col-span-2 text-xs font-semibold text-gray-300">Status</div>
-                <div class="col-span-2 text-xs font-semibold text-gray-300 text-center">Aksi</div>
+                    <div class="bg-blue-600 px-6 py-4 grid grid-cols-12 gap-4 items-center">
+                <div class="col-span-1 text-sm font-semibold text-white">Foto</div>
+                <div class="col-span-3 text-sm font-semibold text-white">Nama Artis</div>
+                <div class="col-span-2 text-sm font-semibold text-white">Genre</div>
+                <div class="col-span-2 text-sm font-semibold text-white">Asal/Kota</div>
+                <div class="col-span-2 text-sm font-semibold text-white">Status</div>
+                <div class="col-span-2 text-sm font-semibold text-white text-center">Aksi</div>
             </div>
 
             {{-- Body --}}
-            <div class="divide-y divide-gray-100">
+            <div class="divide-y divide-gray-50">
                 @forelse($artists as $artist)
-                    <div class="px-6 py-4 grid grid-cols-12 gap-4 items-center {{ $artist->trashed() ? 'bg-red-50/40' : '' }}">
+                    <div class="px-6 py-4 grid grid-cols-12 gap-4 items-center transition-colors duration-150 {{ $artist->trashed() ? 'bg-red-50/40' : 'hover:bg-blue-50/40' }}">
 
                         {{-- Foto --}}
                         <div class="col-span-1">
