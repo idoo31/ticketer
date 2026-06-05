@@ -277,7 +277,7 @@
                       enctype="multipart/form-data"
                       x-data="{
                           previewUrl: '',
-                          nameVal: '{{ old('name') }}',
+                          nameVal: '{{ old("name") }}',
                           handleFile(e) {
                               const file = e.target.files[0];
                               if (file) this.previewUrl = URL.createObjectURL(file);
@@ -296,21 +296,26 @@
 
                         {{-- Foto Artis --}}
                         <div>
-                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1.5">
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-2">
                                 Foto Artis <span class="text-red-500">*</span>
-                                <span class="text-gray-400 font-normal normal-case">(JPG/PNG, maks 2 MB)</span>
+                                <span class="text-gray-400 font-normal normal-case">(JPG/PNG)</span>
                             </label>
+                            
+                            {{-- Preview --}}
                             <div x-show="previewUrl" class="mb-3">
                                 <img :src="previewUrl" alt="Preview"
-                                     class="w-24 h-24 object-cover rounded-2xl border-2 border-blue-200 shadow-sm">
+                                     class="w-24 h-24 object-cover rounded-2xl border-2 border-blue-200 shadow-sm"
+                                     x-on:error="previewUrl = ''">
                             </div>
-                            <label class="flex items-center gap-3 w-full px-4 py-3 border-2 border-dashed @error('photo') border-red-400 @else border-gray-200 @enderror rounded-xl cursor-pointer hover:border-blue-400 hover:bg-blue-50/30 transition-colors">
+
+                            <label class="flex items-center gap-3 w-full px-4 py-3 border-2 border-dashed {{ $errors->has('photo') ? 'border-red-400' : 'border-gray-200' }} rounded-xl cursor-pointer hover:border-blue-400 hover:bg-blue-50/30 transition-colors">
                                 <svg class="w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                 </svg>
                                 <span class="text-sm text-gray-500">Klik untuk upload foto artis</span>
                                 <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" class="hidden" @change="handleFile($event)">
                             </label>
+
                             @error('photo')
                                 <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                             @enderror
@@ -326,7 +331,7 @@
                                    x-model="nameVal"
                                    @input="$refs.slugInput.value = generateSlug(nameVal)"
                                    placeholder="Contoh: Dewa 19"
-                                   class="w-full px-4 py-2.5 border @error('name') border-red-400 @else border-gray-200 @enderror rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50">
+                                   class="w-full px-4 py-2.5 border {{ $errors->has('name') ? 'border-red-400' : 'border-gray-200' }} rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50">
                             @error('name')
                                 <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                             @enderror
@@ -340,7 +345,7 @@
                             <input type="text" name="slug" x-ref="slugInput"
                                    value="{{ old('slug') }}"
                                    placeholder="dewa-19"
-                                   class="w-full px-4 py-2.5 border @error('slug') border-red-400 @else border-gray-200 @enderror rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 font-mono">
+                                   class="w-full px-4 py-2.5 border {{ $errors->has('slug') ? 'border-red-400' : 'border-gray-200' }} rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 font-mono">
                             @error('slug')
                                 <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                             @enderror
@@ -369,7 +374,7 @@
                             </label>
                             <input type="url" name="instagram_url" value="{{ old('instagram_url') }}"
                                    placeholder="https://instagram.com/artis"
-                                   class="w-full px-4 py-2.5 border @error('instagram_url') border-red-400 @else border-gray-200 @enderror rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50">
+                                   class="w-full px-4 py-2.5 border {{ $errors->has('instagram_url') ? 'border-red-400' : 'border-gray-200' }} rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50">
                             @error('instagram_url')
                                 <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                             @enderror

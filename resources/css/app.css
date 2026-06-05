@@ -15,3 +15,18 @@
         font-family: var(--font-heading);
     }
 }
+
+@layer utilities {
+    .concert-btn {
+        transition: background-color 400ms ease, color 400ms ease, border-color 400ms ease;
+    }
+    .concert-btn:hover {
+        background-color: rgb(37 99 235);
+        color: #ffffff !important;
+        border-color: rgb(37 99 235);
+    }
+    .concert-btn:hover svg {
+        color: #ffffff;
+        stroke: #ffffff;
+    }
+}

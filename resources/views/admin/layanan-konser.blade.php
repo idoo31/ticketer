@@ -358,11 +358,10 @@
 
                         {{-- Banner / Gambar --}}
                         <div>
-                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1.5">
-                                Gambar Banner <span class="text-gray-400 font-normal normal-case">(opsional, maks 2 MB)</span>
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-2">
+                                Gambar Banner <span class="text-gray-400 font-normal normal-case">(opsional)</span>
                             </label>
 
-                            {{-- Preview --}}
                             <div x-show="previewUrl" class="mb-2">
                                 <img :src="previewUrl" alt="Preview"
                                      class="w-full max-h-36 object-cover rounded-xl border border-gray-200">
@@ -375,6 +374,7 @@
                                 <span class="text-sm text-gray-500">Klik untuk upload gambar (JPG, PNG, WebP)</span>
                                 <input type="file" name="banner" accept="image/*" class="hidden" @change="handleFile($event)">
                             </label>
+
                             @error('banner')
                                 <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                             @enderror
