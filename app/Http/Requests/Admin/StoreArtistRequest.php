@@ -17,7 +17,7 @@ class StoreArtistRequest extends FormRequest
         return [
             'name'          => ['required', 'string', 'max:100', Rule::unique('artists', 'name')->whereNull('deleted_at')],
             'slug'          => ['required', 'string', 'max:120', Rule::unique('artists', 'slug')->whereNull('deleted_at')],
-            'photo'         => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            'photo'         => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'genre'         => ['nullable', 'string', 'max:50'],
             'origin'        => ['nullable', 'string', 'max:100'],
             'instagram_url' => ['nullable', 'url', 'max:255'],

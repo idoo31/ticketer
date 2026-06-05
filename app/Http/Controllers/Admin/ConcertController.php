@@ -126,21 +126,55 @@ class ConcertController extends Controller
             'banner_url'  => $bannerUrl,
         ]);
 
-        // Hapus semua kategori lama, lalu bulk insert yang baru
-        $concert->ticketCategories()->delete();
+        // --- UPDATE KATEGORI TIKET ---
+        // Strategi aman: jangan hapus kategori yang sudah punya transaksi.
+        // 1. Ambil semua kategori lama beserta jumlah transaksinya
+        // 2. Hapus hanya kategori yang belum punya transaksi
+        // 3. Update kategori lama yang masih ada transaksinya (urutan cocokkan by index)
+        // 4. Insert kategori baru (jika jumlah input > kategori yang tersisa)
 
-        $now = now();
-        $categoryRows = array_map(fn($cat) => [
-            'concert_id'      => $concert->id,
-            'category_name'   => $cat['category_name'],
-            'price'           => $cat['price'],
-            'total_quota'     => $cat['total_quota'],
-            'available_quota' => $cat['total_quota'],
-            'created_at'      => $now,
-            'updated_at'      => $now,
-        ], $validated['ticket_categories']);
+        $existingCategories = $concert->ticketCategories()->withCount('transactionDetails')->get();
+        $newCategories       = array_values($validated['ticket_categories']);
 
-        TicketCategory::insert($categoryRows);
+        // Pisahkan: kategori lama yang aman dihapus vs yang punya transaksi
+        $deletable = $existingCategories->filter(fn($c) => $c->transaction_details_count === 0);
+        $protected = $existingCategories->filter(fn($c) => $c->transaction_details_count  > 0)->values();
+
+        // Hapus kategori lama yang tidak punya transaksi
+        if ($deletable->isNotEmpty()) {
+            TicketCategory::whereIn('id', $deletable->pluck('id'))->delete();
+        }
+
+        // Hitung berapa slot "baru murni" (yang tidak menimpa kategori protected)
+        $now       = now();
+        $toInsert  = [];
+
+        foreach ($newCategories as $i => $cat) {
+            if (isset($protected[$i])) {
+                // Update kategori yang dilindungi (sudah ada transaksi)
+                $protected[$i]->update([
+                    'category_name'   => $cat['category_name'],
+                    'price'           => $cat['price'],
+                    'total_quota'     => $cat['total_quota'],
+                    'available_quota' => max(0, $cat['total_quota'] - ($protected[$i]->total_quota - $protected[$i]->available_quota)),
+                ]);
+            } else {
+                // Kategori baru (tidak ada pasangan di protected)
+                $toInsert[] = [
+                    'concert_id'      => $concert->id,
+                    'category_name'   => $cat['category_name'],
+                    'price'           => $cat['price'],
+                    'total_quota'     => $cat['total_quota'],
+                    'available_quota' => $cat['total_quota'],
+                    'created_at'      => $now,
+                    'updated_at'      => $now,
+                ];
+            }
+        }
+
+        if (!empty($toInsert)) {
+            TicketCategory::insert($toInsert);
+        }
 
         // Sync artis dengan urutan tampil
         $artistIds = collect($validated['artist_ids'])

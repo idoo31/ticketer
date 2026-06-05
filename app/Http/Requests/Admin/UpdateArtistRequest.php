@@ -25,7 +25,7 @@ class UpdateArtistRequest extends FormRequest
                 'required', 'string', 'max:120',
                 Rule::unique('artists', 'slug')->ignore($artistId)->whereNull('deleted_at'),
             ],
-            'photo'         => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            'photo'         => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'genre'         => ['nullable', 'string', 'max:50'],
             'origin'        => ['nullable', 'string', 'max:100'],
             'instagram_url' => ['nullable', 'url', 'max:255'],
@@ -42,7 +42,7 @@ class UpdateArtistRequest extends FormRequest
             'slug.required'      => 'Slug wajib diisi.',
             'slug.unique'        => 'Slug sudah digunakan, gunakan slug lain.',
             'photo.image'        => 'File harus berupa gambar.',
-            'photo.mimes'        => 'Format foto harus JPG atau PNG.',
+            'photo.mimes'        => 'Format foto harus JPG, PNG, atau WebP.',
             'photo.max'          => 'Ukuran foto maksimal 2 MB.',
             'instagram_url.url'  => 'Format URL tidak valid.',
         ];
