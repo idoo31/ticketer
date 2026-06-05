@@ -45,6 +45,10 @@ class CheckoutController extends Controller
      */
     public function saveCart(SaveCartRequest $request, Concert $concert): RedirectResponse
     {
+        if (Auth::check() && Auth::user()->isAdmin()) {
+            return back()->withErrors(['tickets' => 'Sebagai admin, Anda tidak dapat melakukan pembelian tiket.']);
+        }
+
         $validated = $request->validated();
 
         // Hanya simpan tiket dengan qty > 0
