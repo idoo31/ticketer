@@ -4,6 +4,7 @@
             <!-- Brand Column -->
             <div class="col-span-1 md:col-span-1">
                 <a href="/" class="flex items-center gap-2 mb-4">
+                    <img src="{{ asset('logo.svg') }}" alt="Ticketer Logo" class="h-8 w-8">
                     <span class="font-bold text-xl tracking-tight text-gray-900">TICKETER</span>
                 </a>
                 <p class="text-sm text-gray-600 leading-relaxed pr-4">

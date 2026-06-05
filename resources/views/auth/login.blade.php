@@ -6,12 +6,7 @@
             <div class="bg-white p-10 rounded-[2rem] max-w-md w-full shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-50">
                 <!-- Icon -->
                 <div class="flex justify-center mb-6">
-                    <svg class="h-16 w-16 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M15 5v2"></path>
-                        <path d="M15 11v2"></path>
-                        <path d="M15 17v2"></path>
-                        <path d="M5 5h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V7a2 2 0 0 1 2-2z"></path>
-                    </svg>
+                    <img src="{{ asset('logo.svg') }}" alt="Ticketer Logo" class="h-16 w-16 md:h-20 md:w-20">
                 </div>
 
                 <div class="text-center mb-10">

@@ -32,12 +32,7 @@
             <!-- Logo -->
             <div class="h-[70px] md:h-[80px] flex items-center justify-between px-6 md:px-8 border-b border-gray-200">
                 <a href="/admin" class="flex items-center gap-2">
-                    <svg class="h-6 w-6 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M15 5v2"></path>
-                        <path d="M15 11v2"></path>
-                        <path d="M15 17v2"></path>
-                        <path d="M5 5h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V7a2 2 0 0 1 2-2z"></path>
-                    </svg>
+                    <img src="{{ asset('logo.svg') }}" alt="Ticketer Logo" class="h-6 w-6">
                     <span class="font-bold text-lg md:text-xl tracking-tight text-gray-900">TICKETER.<span class="text-black font-black">ADMIN</span></span>
                 </a>
                 
