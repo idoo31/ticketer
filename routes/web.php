@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ConcertPageController;
 use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\TransactionController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -31,6 +32,7 @@ Route::middleware('guest')->group(function () {
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/akun', [UserAccountController::class, 'index'])->name('akun')->middleware('auth');
+Route::delete('/transaksi/{transaction}/cancel', [TransactionController::class, 'cancel'])->name('transaksi.cancel')->middleware('auth');
 
 // Checkout (Step 1 → 2 → 3)
 Route::get('/konser/{concert}/checkout', [CheckoutController::class, 'cart'])->name('checkout.cart');

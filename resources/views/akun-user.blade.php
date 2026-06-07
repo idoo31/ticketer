@@ -1,4 +1,24 @@
 <x-layout>
+    {{-- Flash alerts --}}
+    @if(session('success'))
+        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)"
+             class="fixed top-6 right-6 z-50 flex items-center gap-3 bg-green-50 border border-green-200 text-green-700 px-5 py-3.5 rounded-xl text-sm font-semibold shadow-lg">
+            <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)"
+             class="fixed top-6 right-6 z-50 flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 px-5 py-3.5 rounded-xl text-sm font-semibold shadow-lg">
+            <svg class="w-5 h-5 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+            </svg>
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="bg-gray-50 min-h-screen">
 
         {{-- ── Header / Profile ── --}}
@@ -80,7 +100,21 @@
                     </div>
 
                     {{-- ── Main Area ── --}}
-                    <div class="flex-1 space-y-8 md:space-y-12">
+                    <div x-data="{
+                        cancelModal: false,
+                        cancelBlockedModal: false,
+                        cancelAction: '',
+                        cancelTitle: '',
+                        openCancelModal(action, title, cancellable) {
+                            this.cancelAction = action;
+                            this.cancelTitle = title;
+                            if (cancellable) {
+                                this.cancelModal = true;
+                            } else {
+                                this.cancelBlockedModal = true;
+                            }
+                        }
+                    }" class="flex-1 space-y-8 md:space-y-12">
 
                         {{-- E-Ticket Aktif --}}
                         <div id="tiket" class="scroll-mt-24">
@@ -120,15 +154,26 @@
                                                         <p class="text-xs sm:text-sm text-gray-500 mt-0.5">
                                                             {{ $concert->event_date->translatedFormat('d M Y') }} &bull; {{ $concert->venue_name }}, {{ $concert->city }}
                                                         </p>
-                                                        
+
                                                         <div class="w-full border-t border-dashed border-gray-200 my-3 sm:hidden"></div>
-                                                        
+
                                                         <div class="flex flex-wrap items-center gap-2 sm:gap-3 mt-auto sm:mt-2">
                                                             <span class="text-[10px] sm:text-xs font-semibold bg-blue-50 text-blue-700 px-2 py-1 rounded-full">
                                                                 {{ $detail->ticketCategory->category_name }}
                                                             </span>
                                                             <span class="text-[10px] sm:text-xs text-gray-400 font-medium">{{ $detail->quantity }} tiket</span>
-                                                            <span class="text-[10px] sm:text-xs font-bold text-gray-700 ml-auto sm:ml-0 bg-gray-50 px-2 py-1 rounded">{{ $trx->trx_code }}</span>
+                                                            <span class="text-[10px] sm:text-xs font-bold text-gray-700 bg-gray-50 px-2 py-1 rounded">{{ $trx->trx_code }}</span>
+
+                                                            {{-- Tombol batalkan tiket --}}
+                                                            <button type="button"
+                                                                    @click="openCancelModal(
+                                                                        '{{ route('transaksi.cancel', $trx) }}',
+                                                                        '{{ addslashes($concert->title) }}',
+                                                                        {{ $trx->isCancellable() ? 'true' : 'false' }}
+                                                                    )"
+                                                                    class="ml-auto text-[10px] sm:text-xs font-semibold text-red-500 hover:text-red-700 border border-red-200 hover:border-red-400 px-2.5 py-1 rounded-full transition-colors">
+                                                                Batalkan Tiket
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -235,8 +280,105 @@
                             @endif
                         </div>
 
-                    </div>{{-- /main area --}}
-                </div>
+                        {{-- MODAL: Konfirmasi Batalkan Tiket --}}
+                        <div x-show="cancelModal"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0"
+                             x-transition:enter-end="opacity-100"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100"
+                             x-transition:leave-end="opacity-0"
+                             class="fixed inset-0 z-50 flex items-center justify-center p-4"
+                             style="display: none;">
+
+                            <div @click="cancelModal = false" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+
+                            <div x-show="cancelModal"
+                                 x-transition:enter="transition ease-out duration-200"
+                                 x-transition:enter-start="opacity-0 scale-95"
+                                 x-transition:enter-end="opacity-100 scale-100"
+                                 x-transition:leave="transition ease-in duration-150"
+                                 x-transition:leave-start="opacity-100 scale-100"
+                                 x-transition:leave-end="opacity-0 scale-95"
+                                 class="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm z-10 overflow-hidden">
+
+                                <div class="flex flex-col items-center px-8 pt-8 pb-6 text-center">
+                                    <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mb-4">
+                                        <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-gray-900 mb-2">Batalkan Tiket?</h3>
+                                    <p class="text-sm text-gray-500 leading-relaxed">
+                                        Tiket konser <span class="font-semibold text-gray-800" x-text="'&quot;' + cancelTitle + '&quot;'"></span>
+                                        akan dibatalkan. Untuk proses refund, silakan hubungi admin setelah pembatalan.
+                                    </p>
+                                </div>
+
+                                <div class="flex gap-3 px-8 pb-6">
+                                    <button type="button" @click="cancelModal = false"
+                                            class="flex-1 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-colors">
+                                        Kembali
+                                    </button>
+                                    <form :action="cancelAction" method="POST" class="flex-1">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                                class="w-full py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-semibold transition-colors">
+                                            Ya, Batalkan
+                                        </button>
+                                    </form>
+                                </div>
+
+                            </div>{{-- end modal panel --}}
+                        </div>{{-- end cancel modal --}}
+
+                        {{-- MODAL: Tidak Bisa Dibatalkan (H-7 sudah lewat) --}}
+                        <div x-show="cancelBlockedModal"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0"
+                             x-transition:enter-end="opacity-100"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100"
+                             x-transition:leave-end="opacity-0"
+                             class="fixed inset-0 z-50 flex items-center justify-center p-4"
+                             style="display: none;">
+
+                            <div @click="cancelBlockedModal = false" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+
+                            <div x-show="cancelBlockedModal"
+                                 x-transition:enter="transition ease-out duration-200"
+                                 x-transition:enter-start="opacity-0 scale-95"
+                                 x-transition:enter-end="opacity-100 scale-100"
+                                 x-transition:leave="transition ease-in duration-150"
+                                 x-transition:leave-start="opacity-100 scale-100"
+                                 x-transition:leave-end="opacity-0 scale-95"
+                                 class="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm z-10 overflow-hidden">
+
+                                <div class="flex flex-col items-center px-8 pt-8 pb-6 text-center">
+                                    <div class="w-16 h-16 rounded-full bg-yellow-100 flex items-center justify-center mb-4">
+                                        <svg class="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-gray-900 mb-2">Tidak Dapat Dibatalkan</h3>
+                                    <p class="text-sm text-gray-500 leading-relaxed">
+                                        Tiket konser <span class="font-semibold text-gray-800" x-text="'&quot;' + cancelTitle + '&quot;'"></span>
+                                        tidak dapat dibatalkan karena kurang dari 7 hari sebelum konser dilaksanakan.
+                                    </p>
+                                </div>
+
+                                <div class="px-8 pb-6">
+                                    <button type="button" @click="cancelBlockedModal = false"
+                                            class="w-full py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-sm font-semibold text-gray-700 transition-colors">
+                                        Mengerti
+                                    </button>
+                                </div>
+
+                            </div>{{-- end modal panel --}}
+                        </div>{{-- end blocked modal --}}
+
+                    </div>{{-- /main area (x-data) --}}
             </div>
         </div>
 

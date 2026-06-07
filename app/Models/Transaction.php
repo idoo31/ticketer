@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -38,4 +39,31 @@ class Transaction extends Model
     {
         return $this->hasMany(TransactionDetail::class);
     }
+
+    /**
+     * Cek apakah transaksi masih bisa dibatalkan.
+     * Syarat: status 'paid' dan konser masih > 7 hari lagi.
+     */
+    public function isCancellable(): bool
+    {
+        if ($this->status !== 'paid') {
+            return false;
+        }
+
+        // Ambil tanggal konser dari detail pertama yang tersedia
+        $concert = $this->details->first()?->ticketCategory?->concert;
+
+        if (! $concert) {
+            return false;
+        }
+
+        // Hitung selisih hari antara hari ini dan tanggal konser
+        $daysUntilEvent = now()->startOfDay()->diffInDays(
+            $concert->event_date->startOfDay(),
+            false // false = bisa negatif jika sudah lewat
+        );
+
+        return $daysUntilEvent > 7;
+    }
 }
+
