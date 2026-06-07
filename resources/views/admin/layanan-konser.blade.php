@@ -23,7 +23,19 @@
     @endif
 
     {{-- Action Bar --}}
-    <div x-data="{ openModal: {{ $errors->any() ? 'true' : 'false' }} }">
+    <div x-data="{
+        openModal: {{ $errors->any() ? 'true' : 'false' }},
+        deleteModal: false,
+        deleteHasTransaction: false,
+        deleteTitle: '',
+        deleteAction: '',
+        openDeleteModal(hasTransaction, title, action) {
+            this.deleteHasTransaction = hasTransaction;
+            this.deleteTitle = title;
+            this.deleteAction = action;
+            this.deleteModal = true;
+        }
+    }">
 
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <form method="GET" action="{{ route('admin.concerts.index') }}"
@@ -152,17 +164,20 @@
                             </a>
 
                             {{-- Hapus --}}
-                            <form action="{{ route('admin.concerts.destroy', $concert) }}" method="POST"
-                                  onsubmit="return confirm('Yakin ingin menghapus konser ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                        class="text-gray-400 hover:text-red-600 border border-gray-200 rounded-full p-1.5 transition-colors">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                    </svg>
-                                </button>
-                            </form>
+                            @php
+                                $hasTransaction = $concert->ticketCategories->some(fn($c) => $c->transactionDetails->isNotEmpty());
+                            @endphp
+                            <button type="button"
+                                    @click="openDeleteModal(
+                                        {{ $hasTransaction ? 'true' : 'false' }},
+                                        '{{ addslashes($concert->title) }}',
+                                        '{{ route('admin.concerts.destroy', $concert) }}'
+                                    )"
+                                    class="text-gray-400 hover:text-red-600 border border-gray-200 rounded-full p-1.5 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                </svg>
+                            </button>
                         </div>
 
                     </div>
@@ -524,6 +539,91 @@
                 </form>
             </div>{{-- end modal panel --}}
         </div>{{-- end modal overlay --}}
+
+        {{-- ============================================================ --}}
+        {{-- MODAL: Konfirmasi / Alert Hapus Konser --}}
+        {{-- ============================================================ --}}
+        <div x-show="deleteModal"
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="fixed inset-0 z-50 flex items-center justify-center p-4"
+             style="display: none;">
+
+            {{-- Backdrop --}}
+            <div @click="deleteModal = false" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+
+            {{-- Modal Panel --}}
+            <div x-show="deleteModal"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-95"
+                 class="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm z-10 overflow-hidden">
+
+                {{-- Skenario: ADA transaksi — tidak bisa dihapus --}}
+                <template x-if="deleteHasTransaction">
+                    <div>
+                        <div class="flex flex-col items-center px-8 pt-8 pb-6 text-center">
+                            <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mb-4">
+                                <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Tidak Dapat Dihapus</h3>
+                            <p class="text-sm text-gray-500 leading-relaxed">
+                                Konser <span class="font-semibold text-gray-800" x-text="'\"' + deleteTitle + '\"'"></span>
+                                tidak dapat dihapus karena konser belum terlaksana dan sudah ada yang membeli atau melakukan transaksi.
+                            </p>
+                        </div>
+                        <div class="px-8 pb-6">
+                            <button type="button" @click="deleteModal = false"
+                                    class="w-full py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-sm font-semibold text-gray-700 transition-colors">
+                                Mengerti
+                            </button>
+                        </div>
+                    </div>
+                </template>
+
+                {{-- Skenario: TIDAK ada transaksi — bisa dihapus --}}
+                <template x-if="!deleteHasTransaction">
+                    <div>
+                        <div class="flex flex-col items-center px-8 pt-8 pb-6 text-center">
+                            <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mb-4">
+                                <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">Hapus Konser?</h3>
+                            <p class="text-sm text-gray-500 leading-relaxed">
+                                Konser <span class="font-semibold text-gray-800" x-text="'\"' + deleteTitle + '\"'"></span>
+                                akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.
+                            </p>
+                        </div>
+                        <div class="flex gap-3 px-8 pb-6">
+                            <button type="button" @click="deleteModal = false"
+                                    class="flex-1 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-colors">
+                                Batal
+                            </button>
+                            <form :action="deleteAction" method="POST" class="flex-1">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                        class="w-full py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-semibold transition-colors">
+                                    Ya, Hapus
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </template>
+
+            </div>{{-- end modal panel --}}
+        </div>{{-- end delete modal --}}
 
     </div>{{-- end x-data openModal --}}
 </x-admin-layout>

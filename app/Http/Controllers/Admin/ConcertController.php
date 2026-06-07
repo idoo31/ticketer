@@ -25,6 +25,7 @@ class ConcertController extends Controller
         $concerts = Concert::select(['id', 'title', 'venue_name', 'city', 'event_date', 'event_time', 'status', 'banner_url', 'created_at'])
             ->with([
                 'ticketCategories:id,concert_id,category_name,price,total_quota,available_quota',
+                'ticketCategories.transactionDetails:id,ticket_category_id',
                 'artists:id,name,image_url',
             ])
             ->when($keyword, fn($q) => $q->where('title', 'like', "%{$keyword}%"))
@@ -193,6 +194,15 @@ class ConcertController extends Controller
      */
     public function destroy(Concert $concert): RedirectResponse
     {
+        // Cek apakah ada tiket kategori yang sudah memiliki transaksi
+        $hasTransactions = $concert->ticketCategories()->whereHas('transactionDetails')->exists();
+
+        if ($hasTransactions) {
+            return redirect()
+                ->route('admin.concerts.index')
+                ->with('error', 'Konser "' . $concert->title . '" tidak dapat dihapus karena sudah memiliki data transaksi.');
+        }
+
         if ($concert->banner_url) {
             Storage::disk('public')->delete($concert->banner_url);
         }
