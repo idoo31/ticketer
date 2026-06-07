@@ -33,7 +33,7 @@
                             {{-- Image --}}
                             <div class="w-full sm:w-20 h-32 sm:h-20 bg-slate-100 rounded-xl flex-shrink-0 overflow-hidden relative border border-slate-200 sm:border-none">
                                 @if($concert->banner_url)
-                                    <img src="{{ Storage::url($concert->banner_url) }}" alt="{{ $concert->title }}" class="absolute inset-0 w-full h-full object-cover">
+                                    <img src="{{ image_url($concert->banner_url) }}" alt="{{ $concert->title }}" class="absolute inset-0 w-full h-full object-cover">
                                 @else
                                     <div class="absolute inset-0 flex items-center justify-center">
                                         <svg class="w-8 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">

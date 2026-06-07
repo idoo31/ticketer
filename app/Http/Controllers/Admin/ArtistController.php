@@ -60,7 +60,10 @@ class ArtistController extends Controller
 
         $photoUrl = null;
         if ($request->hasFile('photo')) {
-            $photoUrl = $request->file('photo')->store('artists', 'public');
+            $file     = $request->file('photo');
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images/artists'), $filename);
+            $photoUrl = 'images/artists/' . $filename;
         }
 
         Artist::create([
@@ -95,10 +98,18 @@ class ArtistController extends Controller
 
         $photoUrl = $artis->image_url;
         if ($request->hasFile('photo')) {
+            // Hapus foto lama jika ada
             if ($artis->image_url) {
-                Storage::disk('public')->delete($artis->image_url);
+                if (str_starts_with($artis->image_url, 'images/')) {
+                    @unlink(public_path($artis->image_url));
+                } else {
+                    Storage::disk('public')->delete($artis->image_url);
+                }
             }
-            $photoUrl = $request->file('photo')->store('artists', 'public');
+            $file     = $request->file('photo');
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images/artists'), $filename);
+            $photoUrl = 'images/artists/' . $filename;
         }
 
         $artis->update([

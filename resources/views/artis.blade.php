@@ -41,7 +41,7 @@
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
                     @foreach($artists as $artist)
                         <x-artist-card
-                            :image="$artist->image_url ? Storage::url($artist->image_url) : null"
+                            :image="$artist->image_url ? image_url($artist->image_url) : null"
                             :name="$artist->name"
                             :genre="$artist->genre"
                             :origin="$artist->origin"

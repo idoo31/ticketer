@@ -33,7 +33,7 @@
                       tickets: {{ json_encode($concert->ticketCategories->map(fn($c) => ['category_name' => $c->category_name, 'price' => $c->price, 'total_quota' => $c->total_quota])->values()) }},
                       addTicket() { this.tickets.push({ category_name: '', price: '', total_quota: '' }) },
                       removeTicket(i) { if (this.tickets.length > 1) this.tickets.splice(i, 1) },
-                      previewUrl: '{{ $concert->banner_url ? Storage::url($concert->banner_url) : '' }}',
+                      previewUrl: '{{ $concert->banner_url ? image_url($concert->banner_url) : '' }}',
                       handleFile(e) {
                           const file = e.target.files[0];
                           if (file) this.previewUrl = URL.createObjectURL(file);
@@ -334,7 +334,7 @@
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                 <h3 class="text-sm font-bold text-gray-900 mb-3">Banner Saat Ini</h3>
                 @if($concert->banner_url)
-                    <img src="{{ Storage::url($concert->banner_url) }}"
+                    <img src="{{ image_url($concert->banner_url) }}"
                          alt="Banner {{ $concert->title }}"
                          class="w-full h-40 object-cover rounded-xl border border-gray-200">
                 @else

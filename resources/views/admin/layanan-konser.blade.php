@@ -87,7 +87,7 @@
                         <div class="col-span-4 flex items-center gap-4">
                             {{-- Banner thumbnail --}}
                             @if($concert->banner_url)
-                                <img src="{{ Storage::url($concert->banner_url) }}"
+                                <img src="{{ image_url($concert->banner_url) }}"
                                      alt="{{ $concert->title }}"
                                      class="w-16 h-16 object-cover rounded-xl flex-shrink-0 border border-gray-200">
                             @else

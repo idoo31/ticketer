@@ -12,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ConcertController extends Controller
 {
@@ -47,7 +48,10 @@ class ConcertController extends Controller
         // Handle banner upload
         $bannerUrl = null;
         if ($request->hasFile('banner')) {
-            $bannerUrl = $request->file('banner')->store('concerts', 'public');
+            $file     = $request->file('banner');
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images/concerts'), $filename);
+            $bannerUrl = 'images/concerts/' . $filename;
         }
 
         // Create the concert
@@ -110,9 +114,16 @@ class ConcertController extends Controller
         $bannerUrl = $concert->banner_url;
         if ($request->hasFile('banner')) {
             if ($concert->banner_url) {
-                Storage::disk('public')->delete($concert->banner_url);
+                if (str_starts_with($concert->banner_url, 'images/')) {
+                    @unlink(public_path($concert->banner_url));
+                } else {
+                    Storage::disk('public')->delete($concert->banner_url);
+                }
             }
-            $bannerUrl = $request->file('banner')->store('concerts', 'public');
+            $file     = $request->file('banner');
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images/concerts'), $filename);
+            $bannerUrl = 'images/concerts/' . $filename;
         }
 
         // Update the concert
@@ -204,7 +215,11 @@ class ConcertController extends Controller
         }
 
         if ($concert->banner_url) {
-            Storage::disk('public')->delete($concert->banner_url);
+            if (str_starts_with($concert->banner_url, 'images/')) {
+                @unlink(public_path($concert->banner_url));
+            } else {
+                Storage::disk('public')->delete($concert->banner_url);
+            }
         }
 
         $title = $concert->title;

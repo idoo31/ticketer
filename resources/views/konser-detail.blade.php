@@ -24,7 +24,7 @@
                     @foreach($concert->artists as $artist)
                         <div class="flex items-center gap-2 bg-blue-50 rounded-full pr-4 p-1 border border-blue-100">
                             @if($artist->image_url)
-                                <img src="{{ Storage::url($artist->image_url) }}" alt="{{ $artist->name }}"
+                                <img src="{{ image_url($artist->image_url) }}" alt="{{ $artist->name }}"
                                      class="w-8 h-8 rounded-full object-cover border-2 border-blue-200 shrink-0">
                             @else
                                 <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center shrink-0 text-xs font-bold text-white">
@@ -54,7 +54,7 @@
                     {{-- Banner --}}
                     <div class="w-full sm:w-48 md:w-64 h-48 sm:h-auto bg-slate-100 shrink-0 overflow-hidden relative">
                         @if($concert->banner_url)
-                            <img src="{{ Storage::url($concert->banner_url) }}" alt="{{ $concert->title }}" class="absolute inset-0 w-full h-full object-cover">
+                            <img src="{{ image_url($concert->banner_url) }}" alt="{{ $concert->title }}" class="absolute inset-0 w-full h-full object-cover">
                         @else
                             <div class="absolute inset-0 flex items-center justify-center">
                                 <svg class="w-10 h-10 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
