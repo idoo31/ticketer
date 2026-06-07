@@ -14,7 +14,7 @@
     // Jika object Concert dikirim, ekstrak data dari model
     if ($concert) {
         $image        = $concert->banner_url
-                            ? Storage::url($concert->banner_url)
+                            ? image_url($concert->banner_url)
                             : null;
         $title        = $concert->title;
         $subtitle     = $concert->description

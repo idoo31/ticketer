@@ -85,7 +85,7 @@
                         {{-- Foto --}}
                         <div class="col-span-1">
                             @if($artist->image_url)
-                                <img src="{{ Storage::url($artist->image_url) }}"
+                                <img src="{{ image_url($artist->image_url) }}"
                                      alt="{{ $artist->name }}"
                                      class="w-12 h-12 object-cover rounded-xl border border-gray-200 {{ $artist->trashed() ? 'opacity-50' : '' }}">
                             @else

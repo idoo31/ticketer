@@ -29,7 +29,7 @@
             <form action="{{ route('admin.artists.update', $artist) }}" method="POST"
                   enctype="multipart/form-data"
                   x-data="{
-                      previewUrl: '{{ $artist->image_url ? Storage::url($artist->image_url) : '' }}',
+                      previewUrl: '{{ $artist->image_url ? image_url($artist->image_url) : '' }}',
                       handleFile(e) {
                           const file = e.target.files[0];
                           if (file) this.previewUrl = URL.createObjectURL(file);
@@ -171,7 +171,7 @@
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                 <h3 class="text-sm font-bold text-gray-900 mb-3">Foto Saat Ini</h3>
                 @if($artist->image_url)
-                    <img src="{{ Storage::url($artist->image_url) }}"
+                    <img src="{{ image_url($artist->image_url) }}"
                          alt="{{ $artist->name }}"
                          class="w-full aspect-square object-cover rounded-xl border border-gray-200">
                 @else
